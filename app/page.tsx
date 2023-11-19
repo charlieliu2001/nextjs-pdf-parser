@@ -7,11 +7,24 @@ import 'filepond/dist/filepond.min.css';
 
 export default function Home() {
   const [parsedPdfText, setParsedPdfText] = useState('');
+
+  // Adding types to the parameters
+  const handleProcessFile = (error: any, file: FilePondFile) => {
+    if (error) {
+      console.error('Error during file processing:', error);
+      return;
+    }
+
+    // Handle the file processing here
+    // file.serverId should be replaced with the appropriate property based on your server response
+    setParsedPdfText(file.serverId);
+  };
+
   return (
     <main className='flex min-h-screen flex-col items-center justify-between p-24'>
       <div className='w-96'>
         <FilePond
-          onprocessfiles={() => setParsedPdfText}
+          onprocessfile={handleProcessFile}
           server={{
             process: '/api/upload',
             fetch: null,

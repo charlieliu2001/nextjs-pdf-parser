@@ -47,6 +47,22 @@ export async function POST(req: NextRequest) {
       });
 
       pdfParser.loadPDF(tempFilePath);
+
+      return new Promise((resolve, reject) => {
+        pdfParser.on('pdfParser_dataReady', () => {
+          parsedText = (pdfParser as any).getRawTextContent();
+          const response = new NextResponse(JSON.stringify({ parsedText }));
+          response.headers.set('Content-Type', 'application/json');
+          resolve(response);
+        });
+    
+        pdfParser.on('pdfParser_dataError', (errData: any) => {
+          reject(new NextResponse('Error parsing PDF', { status: 500 }));
+        });
+    
+        pdfParser.loadPDF(tempFilePath);
+      });
+
     } else {
       console.log('Uploaded file is not in the expected format.');
     }
