@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
       fileName = uuidv4();
 
       // Convert the uploaded file into a temporary file
-      const tempFilePath = `/tmp/${fileName}.pdf`;
+      const tempFilePath = `C:/Projects/ResumeAnalyzer/temp/${fileName}.pdf`;
 
       // Convert ArrayBuffer to Buffer
       const fileBuffer = Buffer.from(await uploadedFile.arrayBuffer());
